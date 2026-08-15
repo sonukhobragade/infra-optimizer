@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+.pnp
+.pnp.js
+
+# build
+build/
+dist/
+
+# environment
+.env
+.env.local
+.env.*.local
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
+# editor / OS
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# real cluster exports -- never commit production metrics
+csv/
+*_metrics_*.csv
+*Backend Metrics*.csv
+
+# harness template state
+.template.env
+.template.modules
+.claude/logs/
+
+__pycache__/
+*.pyc
+
+# Local Claude Code MCP server config; may contain API tokens
+.mcp.json
