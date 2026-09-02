@@ -29,6 +29,30 @@ npm start
 Opens at `http://localhost:3000`. Click **Load Sample Data** to see it work
 before you export anything real. Synthetic fixtures also live in `sample-data/`.
 
+### What it says about that trace
+
+Running the recommendation logic over `sample-data/azure/`:
+
+```
+service                      avgCPU  maxCPU  avgMem   pods -> rec   verdict
+delay-insensitive-8c-32g       10.1    98.3    21.1      4 ->   5   SCALE_UP
+unknown-4c-32g                  0.6    37.9    12.6      2 ->   2   OPTIMAL
+interactive-2c-4g              20.3    99.1    30.3      5 ->   6   SCALE_UP
+unknown-24c-64g                 2.0    98.2    13.8      2 ->   3   SCALE_UP
+unknown-4c-8g                   5.9    86.6    17.3      3 ->   3   OPTIMAL
+
+total pods 40 -> 49
+```
+
+Worth sitting with, because it is the opposite of what a rightsizing tool is
+assumed to do. `unknown-24c-64g` averages **2% CPU** and still gets more
+capacity, because it peaks at **98%**. Averages say idle; peaks say one bad
+minute from saturation.
+
+A tool that only ever shrinks is not measuring; it is applying a haircut. This
+one cuts hard below 2% average *with low peaks* and adds capacity when the peak
+says so -- which on a real trace means it mostly adds.
+
 ### Sample data from a real production trace
 
 The hand-written fixtures show the schema and little else. Real fleets look
